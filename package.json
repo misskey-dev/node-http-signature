@@ -1,7 +1,7 @@
 {
-  "name": "@peertube/http-signature",
-  "description": "PeerTube fork of reference implementation of Joyent's HTTP Signature scheme.",
-  "version": "1.4.0",
+  "name": "http-signature",
+  "description": "Defacto implementation of HTTP Signature scheme.",
+  "version": "1.5.0",
   "license": "MIT",
   "author": "Joyent, Inc",
   "contributors": [
@@ -11,10 +11,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/Chocobozzz/node-http-signature.git"
+    "url": "git://github.com/mei23/node-http-signature.git"
   },
-  "homepage": "https://github.com/Chocobozzz/node-http-signature/",
-  "bugs": "https://github.com/Chocobozzz/node-http-signature/issues",
+  "homepage": "https://github.com/mei23/node-http-signature/",
+  "bugs": "https://github.com/mei23/node-http-signature/issues",
   "keywords": [
     "https",
     "request"
