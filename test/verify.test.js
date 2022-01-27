@@ -313,10 +313,10 @@ test('invalid hs2019', function(t) {
   });
 });
 
-test('invalid hs2019 (valid ecdsa-sha256)', function(t) {
+test('for now valid hs2019 (valid ecdsa-sha256)', function(t) {
   server.tester = function(req, res) {
     var parsed = httpSignature.parseRequest(req);
-    t.ok(!httpSignature.verify(parsed, ecdsaPublic));
+    t.ok(httpSignature.verify(parsed, ecdsaPublic), 'hs2019 ecdsa-sha256');
 
     res.writeHead(200);
     res.write(JSON.stringify(parsed, null, 2));
@@ -337,10 +337,10 @@ test('invalid hs2019 (valid ecdsa-sha256)', function(t) {
   });
 });
 
-test('valid hs2019 (valid ecdsa-sha512)', function(t) {
+test('for now invalid hs2019 (valid ecdsa-sha512)', function(t) {
   server.tester = function(req, res) {
     var parsed = httpSignature.parseRequest(req);
-    t.ok(httpSignature.verify(parsed, ecdsaPublic));
+    t.ok(!httpSignature.verify(parsed, ecdsaPublic), 'hs2019 ecdsa-sha512');
 
     res.writeHead(200);
     res.write(JSON.stringify(parsed, null, 2));
@@ -361,10 +361,10 @@ test('valid hs2019 (valid ecdsa-sha512)', function(t) {
   });
 });
 
-test('valid hs2019 (valid dsa-sha512)', function(t) {
+test('for now invalid hs2019 (valid dsa-sha512)', function(t) {
   server.tester = function(req, res) {
     var parsed = httpSignature.parseRequest(req);
-    t.ok(httpSignature.verify(parsed, dsaPublic));
+    t.ok(!httpSignature.verify(parsed, dsaPublic), 'hs2019 dsa-sha512');
 
     res.writeHead(200);
     res.write(JSON.stringify(parsed, null, 2));
@@ -385,10 +385,33 @@ test('valid hs2019 (valid dsa-sha512)', function(t) {
   });
 });
 
-test('valid hs2019 (valid rsa-sha512)', function(t) {
+test('for now valid hs2019 (valid rsa-sha256)', function(t) {
   server.tester = function(req, res) {
     var parsed = httpSignature.parseRequest(req);
-    t.ok(httpSignature.verify(parsed, rsaPublic));
+    t.ok(httpSignature.verify(parsed, rsaPublic), 'hs2019 rsa-sha256');
+
+    res.writeHead(200);
+    res.write(JSON.stringify(parsed, null, 2));
+    res.end();
+  };
+
+  options.headers.Date = jsprim.rfc1123(new Date());
+  var signer = crypto.createSign('RSA-SHA256');
+  signer.update('date: ' + options.headers.Date);
+  options.headers.Authorization =
+      'Signature keyId="foo",algorithm="hs2019",signature="' +
+      signer.sign(rsaPrivate, 'base64') + '"';
+
+  http.get(options, function(res) {
+    t.equal(res.statusCode, 200);
+    t.end();
+  });
+});
+
+test('for now invalid hs2019 (valid rsa-sha512)', function(t) {
+  server.tester = function(req, res) {
+    var parsed = httpSignature.parseRequest(req);
+    t.ok(!httpSignature.verify(parsed, rsaPublic), 'hs2019 rsa-sha512');
 
     res.writeHead(200);
     res.write(JSON.stringify(parsed, null, 2));
