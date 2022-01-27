@@ -1,3 +1,4 @@
-# @peertube/http-signature
+Fork of [Chocobozzz/node-http-signature](https://github.com/Chocobozzz/node-http-signature) of [joyent/node-http-signature](https://github.com/joyent/node-http-signature) 
 
-Fork of [node-http-signature](https://github.com/joyent/node-http-signature) with [hs2019 support](https://github.com/joyent/node-http-signature/pull/116).
+- algorithm=hs2019 => (keyType)-sha256
+- algorithm=(omitted) => rsa-sha256
